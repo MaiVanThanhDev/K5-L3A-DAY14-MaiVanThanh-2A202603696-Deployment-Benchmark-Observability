@@ -4,23 +4,25 @@
 
 ## Public URL
 
-TODO: https://<your-agent>.up.railway.app
+https://k5-l3a-day14-maivanthanh-2a202603696-deployment-production.up.railway.app
 
 ## Platform
 
-TODO: Railway (cấu hình: `06-lab-complete/railway.toml`) — hoặc Render (`06-lab-complete/render.yaml`)
+**Railway**, deploy từ GitHub repo (nhánh `main`):
 
-- Service agent: build từ `06-lab-complete/Dockerfile` (multi-stage, `python:3.11-slim`, non-root, 273 MB)
-- Service Redis: Redis của nền tảng (rate limit + cost guard)
+- Service agent: Root Directory = `06-lab-complete`, Config file = `/06-lab-complete/railway.toml` (builder `DOCKERFILE`, `healthcheckPath = "/health"`); build từ `06-lab-complete/Dockerfile` (multi-stage, `python:3.11-slim`, non-root)
+- Service Redis: Railway Redis (state của rate limit + cost guard); agent nối qua `REDIS_URL=${{Redis.REDIS_URL}}`
 - Health check của nền tảng: `GET /health`
+
+**Lỗi gặp khi deploy và cách sửa:** lần build đầu fail sau khoảng 16 giây vì Railway build ở gốc repo, nơi có một `Dockerfile` mẫu dành cho app Go của đề (`go build` không tìm thấy code). Đã sửa bằng cách đặt Root Directory = `06-lab-complete` và đường dẫn config `/06-lab-complete/railway.toml`. File config của Railway tính đường dẫn từ gốc repo, không theo Root Directory.
 
 ## Test Commands
 
 Đặt biến trước khi chạy (không ghi key thật vào file này):
 
 ```bash
-BASE=https://<your-agent>.up.railway.app
-AGENT_API_KEY=<key đã đặt trên nền tảng>
+BASE=https://k5-l3a-day14-maivanthanh-2a202603696-deployment-production.up.railway.app
+AGENT_API_KEY=<key đã đặt trên Railway>
 ```
 
 ### 4 lệnh tự kiểm (CP6) — chỉ in mã HTTP
@@ -32,10 +34,39 @@ curl -sS -o /dev/null -w '%{http_code}\n' -X POST "$BASE/ask" -H 'Content-Type: 
 curl -sS -o /dev/null -w '%{http_code}\n' -X POST "$BASE/ask" -H 'Content-Type: application/json' -H "X-API-Key: $AGENT_API_KEY" -d '{"question":"Hello"}'   # 200
 ```
 
-Kết quả:
+Kết quả (2026-11-25):
 
 ```text
-TODO: dán output (4 dòng: 200 / 200 / 401 / 200)
+200
+200
+401
+200
+```
+
+(Dòng 4 dùng key thật đặt trong biến môi trường `$env:AGENT_API_KEY` của terminal, key không hiện ra. Ảnh: [screenshots/test.png](screenshots/test.png).)
+
+Chi tiết từng endpoint:
+
+```text
+$ curl $BASE/health
+{"status":"ok","version":"1.0.0","environment":"production","uptime_seconds":142.2,"timestamp":"2026-11-25T08:56:22.137261+00:00"}  -> HTTP 200
+
+$ curl $BASE/ready
+{"ready":true,"redis":"ok"}  -> HTTP 200                       # Redis trên Railway đã kết nối
+
+$ curl -X POST $BASE/ask -H 'Content-Type: application/json' -d '{"question":"Hello"}'
+{"detail":"Missing API key. Include header: X-API-Key: <your-key>"}  -> HTTP 401
+
+$ curl -X POST $BASE/ask -H 'X-API-Key: wrong-key' -H 'Content-Type: application/json' -d '{"question":"Hello"}'
+{"detail":"Invalid API key."}  -> HTTP 401
+```
+
+Script chấm:
+
+```text
+$ python check_production_ready.py --static-only --public-url https://k5-l3a-day14-maivanthanh-2a202603696-deployment-production.up.railway.app
+✅ 12. Public URL ready (Railway / Render config)
+     ✅ Public URL: GET https://k5-l3a-day14-maivanthanh-2a202603696-deployment-production.up.railway.app/health → 200
 ```
 
 ### Health Check

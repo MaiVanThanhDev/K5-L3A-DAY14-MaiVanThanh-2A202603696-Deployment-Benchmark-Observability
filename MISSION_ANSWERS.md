@@ -310,13 +310,20 @@ $ docker compose -p k5-day14-docker down
 
 ### Exercise 3.1 / 3.2: Deploy agent Part 6
 
-- **Nền tảng chính:** _(TODO: Railway hoặc Render)_
-- **URL:** _(TODO: https://...)_. Chi tiết, lệnh test và ảnh xem trong [DEPLOYMENT.md](DEPLOYMENT.md).
+- **Nền tảng chính:** Railway (deploy từ GitHub, Root Directory `06-lab-complete`, có Railway Redis)
+- **URL:** https://k5-l3a-day14-maivanthanh-2a202603696-deployment-production.up.railway.app. Chi tiết, lệnh test và ảnh xem trong [DEPLOYMENT.md](DEPLOYMENT.md).
 - **Kết quả 4 lệnh tự kiểm (CP6):**
 
 ```text
-(TODO: dán output 4 lệnh: /health 200, /ready 200, /ask không key 401, /ask có key 200)
+$ curl -sS -o /dev/null -w '%{http_code}\n' "$BASE/health"     → 200
+$ curl -sS -o /dev/null -w '%{http_code}\n' "$BASE/ready"      → 200   ({"ready":true,"redis":"ok"})
+$ curl ... -X POST "$BASE/ask" (không key)                      → 401
+$ curl ... -X POST "$BASE/ask" -H "X-API-Key: $AGENT_API_KEY"   → 200
 ```
+
+Ảnh 4 lệnh: [screenshots/test.png](screenshots/test.png).
+
+- **Lỗi khi deploy:** lần build đầu fail vì Railway build ở gốc repo, nơi có `Dockerfile` của app Go mẫu. Đã sửa bằng Root Directory = `06-lab-complete` và config path `/06-lab-complete/railway.toml`.
 
 ### So sánh `railway.toml` và `render.yaml` (`06-lab-complete/`)
 

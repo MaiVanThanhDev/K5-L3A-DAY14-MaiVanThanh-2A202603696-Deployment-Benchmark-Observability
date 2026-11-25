@@ -1,0 +1,266 @@
+[
+ {
+  "id": "A",
+  "change": "MOCK_ERROR_RATE=0.2",
+  "changed_at_utc": "08:27:24",
+  "expected": [
+   "AgentHighErrorRate"
+  ],
+  "seconds_to_firing": {
+   "AgentHighErrorRate": 87
+  },
+  "before": {
+   "error_rate": [
+    0.0087
+   ],
+   "p95_s": [
+    0.2894
+   ],
+   "cost_usd_per_h": [
+    1.8583
+   ],
+   "rps": [
+    6.2911
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "during": {
+   "error_rate": [
+    0.2174
+   ],
+   "p95_s": [
+    0.2983
+   ],
+   "cost_usd_per_h": [
+    0.7397
+   ],
+   "rps": [
+    6.2729
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "alerts_at_end": {
+   "AgentHighErrorRate|": "firing"
+  }
+ },
+ {
+  "id": "B",
+  "change": "MOCK_SLOW_RATE=0.3",
+  "changed_at_utc": "08:29:50",
+  "expected": [
+   "AgentHighLatencyP95"
+  ],
+  "seconds_to_firing": {
+   "AgentHighLatencyP95": 147
+  },
+  "before": {
+   "error_rate": [
+    0.0188
+   ],
+   "p95_s": [
+    0.2899
+   ],
+   "cost_usd_per_h": [
+    0.7287
+   ],
+   "rps": [
+    4.8366
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "during": {
+   "error_rate": [
+    0.0114
+   ],
+   "p95_s": [
+    1.9233
+   ],
+   "cost_usd_per_h": [
+    0.5956
+   ],
+   "rps": [
+    4.8004
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "alerts_at_end": {
+   "AgentHighLatencyP95|": "firing"
+  }
+ },
+ {
+  "id": "C",
+  "change": "LLM_MODEL=mock-llm-large",
+  "changed_at_utc": "08:33:20",
+  "expected": [
+   "LLMCostBurnRateHigh"
+  ],
+  "seconds_to_firing": {
+   "LLMCostBurnRateHigh": 177
+  },
+  "before": {
+   "error_rate": [
+    0.0076
+   ],
+   "p95_s": [
+    0.2885
+   ],
+   "cost_usd_per_h": [
+    0.6155
+   ],
+   "rps": [
+    5.1249
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "during": {
+   "error_rate": [
+    0.0067
+   ],
+   "p95_s": [
+    0.6722
+   ],
+   "cost_usd_per_h": [
+    6.9063
+   ],
+   "rps": [
+    5.4003
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "alerts_at_end": {
+   "LLMCostBurnRateHigh|": "firing"
+  }
+ },
+ {
+  "id": "D",
+  "change": "docker pause k5-day14-observability-agent-1",
+  "changed_at_utc": "08:41:01",
+  "expected": [
+   "AgentInstanceDown"
+  ],
+  "seconds_to_firing": {
+   "AgentInstanceDown": 42
+  },
+  "before": {
+   "error_rate": [
+    0.0033
+   ],
+   "p95_s": [
+    0.2877
+   ],
+   "cost_usd_per_h": [
+    1.4744
+   ],
+   "rps": [
+    6.1096
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "during": {
+   "error_rate": [
+    0.0043
+   ],
+   "p95_s": [
+    0.2857
+   ],
+   "cost_usd_per_h": [
+    0.7821
+   ],
+   "rps": [
+    4.1982
+   ],
+   "instances_up": [
+    1.0
+   ]
+  },
+  "alerts_at_end": {
+   "AgentInstanceDown|172.20.0.7:8000": "firing"
+  }
+ },
+ {
+  "id": "E",
+  "change": "AGENT_VERSION=v1",
+  "changed_at_utc": "08:41:54",
+  "expected": [],
+  "seconds_to_firing": {},
+  "before": {
+   "error_rate": [
+    0.0042
+   ],
+   "p95_s": [
+    0.2926
+   ],
+   "cost_usd_per_h": [
+    0.7908
+   ],
+   "rps": [
+    4.3273
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "during": {
+   "error_rate": [
+    0.0058
+   ],
+   "p95_s": [
+    0.1981
+   ],
+   "cost_usd_per_h": [
+    0.5476
+   ],
+   "rps": [
+    6.2365
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "alerts_at_end": {}
+ },
+ {
+  "id": "FINAL",
+  "change": "MOCK_ERROR_RATE=0.2 + MOCK_SLOW_RATE=0.3",
+  "changed_at_utc": "08:44:28",
+  "seconds_to_firing": {
+   "AgentHighErrorRate": 91,
+   "AgentHighLatencyP95": 141
+  },
+  "during": {
+   "error_rate": [
+    0.2234
+   ],
+   "p95_s": [
+    1.8917
+   ],
+   "cost_usd_per_h": [
+    0.4262
+   ],
+   "rps": [
+    4.9639
+   ],
+   "instances_up": [
+    2.0
+   ]
+  },
+  "alerts_at_end": {
+   "AgentHighErrorRate|": "firing",
+   "AgentHighLatencyP95|": "firing"
+  }
+ }
+]

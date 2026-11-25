@@ -1,0 +1,29 @@
+{
+ "time_utc": "2026-11-25T08:40:50Z",
+ "p95_ask_s": {
+  "value": 0.2912
+ },
+ "p99_ask_s": {
+  "value": 1.8117
+ },
+ "p50_ask_s": {
+  "value": 0.1705
+ },
+ "avg_ask_s": {
+  "value": 0.2275
+ },
+ "rps_by_instance": {
+  "instance=172.20.0.7:8000": 3.0911,
+  "instance=172.20.0.8:8000": 3.073
+ },
+ "tokens_per_s": {
+  "type=input": 492.454,
+  "type=output": 265.492
+ },
+ "in_flight": {
+  "value": 1.0
+ },
+ "cost_usd_per_h": {
+  "value": 1.9111
+ }
+}
